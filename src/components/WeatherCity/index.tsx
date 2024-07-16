@@ -48,6 +48,16 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
             <Stack direction="row" spacing={2} justifyContent="space-between">
               <Box>
                 <Typography variant="h6">
+                  <IconMapPin
+                    stroke={2}
+                    size={20}
+                    color={theme.palette.primary.dark}
+                    style={{
+                      display: "inline-block",
+                      marginRight: 2,
+                      marginTop: -5,
+                    }}
+                  />
                   {weatherData.name},{" "}
                   <Typography component="span" variant="subtitle1">
                     {weatherData.sys.country}
