@@ -8,21 +8,15 @@ import {
   Stack,
   Tooltip,
   Typography,
-  useTheme,
 } from "@mui/material";
-import {
-  IconDroplet,
-  IconMapPin,
-  IconSphere,
-  IconWind,
-} from "@tabler/icons-react";
+import { IconDroplet, IconSphere, IconWind } from "@tabler/icons-react";
+import CountryFlag from "../CountryFlag";
 
 interface IWeatherCity {
   weatherData: any;
 }
 
 const WeatherCity = ({ weatherData }: IWeatherCity) => {
-  const theme = useTheme();
   if (!weatherData.weather)
     return (
       <Grid item xs={12} sm={6} md={4}>
@@ -43,21 +37,12 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
           bgcolor: "rgb(191, 219, 254 )",
         }}
       >
-        <CardContent>
-          <Stack spacing={2}>
+        <CardContent sx={{ height: "100%" }}>
+          <Stack spacing={2} sx={{ height: "100%" }}>
             <Stack direction="row" spacing={2} justifyContent="space-between">
               <Box>
                 <Typography variant="h6">
-                  <IconMapPin
-                    stroke={2}
-                    size={20}
-                    color={theme.palette.primary.dark}
-                    style={{
-                      display: "inline-block",
-                      marginRight: 2,
-                      marginTop: -5,
-                    }}
-                  />
+                  <CountryFlag country={weatherData.sys.country} />
                   {weatherData.name},{" "}
                   <Typography component="span" variant="subtitle1">
                     {weatherData.sys.country}
@@ -80,7 +65,10 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
             >
               <Box>
                 <Typography variant="h4">
-                  {weatherData.main.temp.toFixed()}°C
+                  {weatherData.main.temp.toFixed()}
+                  <Typography color="error" variant="h4" component="span">
+                    °
+                  </Typography>
                 </Typography>
               </Box>
               <Box sx={{ textAlign: "right" }}>
@@ -91,7 +79,14 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
                   <Typography variant="caption" component="div">
                     Ощущается как{" "}
                     <Typography variant="subtitle2" component="span">
-                      {weatherData.main.feels_like.toFixed()}°C
+                      {weatherData.main.feels_like.toFixed()}
+                      <Typography
+                        color="error"
+                        variant="subtitle2"
+                        component="span"
+                      >
+                        °
+                      </Typography>
                     </Typography>
                   </Typography>
                 </Typography>
