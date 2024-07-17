@@ -113,7 +113,7 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
                 </Tooltip>
                 <Typography variant="subtitle2">
                   {weatherData.wind.speed.toFixed()}{" "}
-                  <Typography variant="caption">км/ч</Typography>
+                  <Typography variant="caption">м/с</Typography>
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={1}>
