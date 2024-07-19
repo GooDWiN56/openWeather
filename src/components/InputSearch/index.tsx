@@ -10,6 +10,7 @@ interface IInputSearch {
 
 const InputSearch = ({ value, setValue, pressKeyFunction }: IInputSearch) => {
   const theme = useTheme();
+  // поле ввода города
   return (
     <>
       <TextField

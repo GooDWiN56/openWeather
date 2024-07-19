@@ -55,7 +55,7 @@ function App() {
         });
     }
   };
-
+  // функция удаления города
   const deletLocation = (item: number) => {
     let arr = data;
     arr.splice(item, 1);
@@ -66,6 +66,7 @@ function App() {
     <div className="w-full min-h-screen">
       <div className="max-w-5xl mx-auto">
         <div className="text-center p-4 pt-14">
+          {/* Поле ввода города */}
           <InputSearch
             pressKeyFunction={searchLoacation}
             setValue={setCity}
@@ -79,6 +80,7 @@ function App() {
             </Typography>
           ) : (
             <Grid container spacing={2}>
+              {/* Вывод добавленных городов */}
               {data.map((item, key) => (
                 <WeatherCity
                   deleteFunc={deletLocation}
@@ -91,6 +93,7 @@ function App() {
           )}
         </div>
       </div>
+      {/* Вывод уведомлений */}
       <Snackbars
         message={message}
         open={open}

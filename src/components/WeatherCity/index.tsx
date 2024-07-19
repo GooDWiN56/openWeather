@@ -28,7 +28,7 @@ interface IWeatherCity {
 
 const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
   const theme = useTheme();
-  // ЕСли нет погоды
+  // Если нет погоды
   if (!weatherData.weather)
     return (
       <Grid item xs={12} sm={6} md={4}>
@@ -40,15 +40,17 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
         />
       </Grid>
     );
-
+  // рассвет
   const sunrise = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString(
     [],
     { timeStyle: "short" }
   );
+  // закат
   const sunset = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString(
     [],
     { hour: "2-digit", minute: "2-digit" }
   );
+  // карточка города
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
@@ -61,19 +63,24 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
       >
         <CardContent sx={{ height: "100%" }}>
           <Stack spacing={2} sx={{ height: "100%" }}>
-            {/*  Город, кнопка удаления и иконка погоды */}
+            {/*  Город(Название города/флаг/страна), кнопка удаления и иконка погоды */}
             <Stack direction="row" spacing={2} justifyContent="space-between">
               <Box>
                 <Typography variant="h6">
+                  {/* флаг */}
                   <CountryFlag country={weatherData.sys.country} />
+                  {/* название города */}
                   {weatherData.name},{" "}
                   <Typography component="span" variant="subtitle1">
+                    {/* страна */}
                     {weatherData.sys.country}
                   </Typography>
+                  {/* кнопка удаления */}
                   <DeleteButton handleClick={deleteFunc} index={index} />
                 </Typography>
               </Box>
               <Box sx={{ mr: "-15px !important" }}>
+                {/* тконка погоды */}
                 <img
                   className="w-[50px] h-[50px] my-[-10px]"
                   src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
@@ -91,6 +98,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
             >
               <Box>
                 <Typography variant="h4">
+                  {/* температура */}
                   {weatherData.main.temp.toFixed()}
                   <Typography color="error" variant="h4" component="span">
                     °
@@ -98,6 +106,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
                 </Typography>
               </Box>
               <Box sx={{ textAlign: "right" }}>
+                {/* описание погоды */}
                 <Typography variant="caption" component="div">
                   {weatherData.weather[0].description}
                 </Typography>
@@ -105,6 +114,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
                 <Typography variant="caption" component="div">
                   Ощущается как{" "}
                   <Typography variant="subtitle2" component="span">
+                    {/* температура "ощущается как" */}
                     {weatherData.main.feels_like.toFixed()}
                     <Typography
                       color="error"
@@ -125,6 +135,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
               justifyContent="space-between"
               sx={{ mt: "auto" }}
             >
+              {/* Влажность */}
               <Stack direction="row" spacing={1}>
                 <Tooltip arrow title="Влажность">
                   <IconDroplet size={18} stroke={2} />
@@ -134,6 +145,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
                   <Typography variant="caption">%</Typography>
                 </Typography>
               </Stack>
+              {/* Скорость ветра */}
               <Stack direction="row" spacing={1}>
                 <Tooltip arrow title="Скорость ветра">
                   <IconWind size={18} stroke={2} />
@@ -143,6 +155,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
                   <Typography variant="caption">м/с</Typography>
                 </Typography>
               </Stack>
+              {/* Давление */}
               <Stack direction="row" spacing={1}>
                 <Tooltip arrow title="Давление">
                   <IconSphere size={18} stroke={2} />
@@ -161,6 +174,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
               justifyContent="space-between"
               sx={{ mt: "6px !important" }}
             >
+              {/* Рассвет */}
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Tooltip title="Рассвет">
                   <IconSunrise size={20} color={theme.palette.warning.dark} />
@@ -169,6 +183,7 @@ const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
                   {sunrise}
                 </Typography>
               </Stack>
+              {/* Закат */}
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Tooltip title="Закат">
                   <IconSunset size={20} color={theme.palette.error.main} />

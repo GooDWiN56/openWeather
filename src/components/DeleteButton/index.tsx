@@ -10,6 +10,7 @@ interface IDeleteButton {
 }
 
 const DeleteButton = ({ index, handleClick }: IDeleteButton) => {
+  // кнопка удаления города
   return (
     <Tooltip title="Удалить">
       <IconButton

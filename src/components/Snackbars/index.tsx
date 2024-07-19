@@ -9,6 +9,7 @@ interface ISnackbars {
   setOpen: (props: boolean) => void;
 }
 const Snackbars = ({ message, open, severity, setOpen }: ISnackbars) => {
+  // уведомление
   const handleClose = () => setOpen(false);
   return (
     <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>

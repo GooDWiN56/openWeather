@@ -4,6 +4,7 @@ interface ICountryFlag {
   country: string;
 }
 const CountryFlag = ({ country }: ICountryFlag) => {
+  // вывод флага страны
   return (
     <ReactCountryFlag
       countryCode={country}
