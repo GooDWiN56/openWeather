@@ -8,37 +8,60 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
-import { IconDroplet, IconSphere, IconWind } from "@tabler/icons-react";
+import {
+  IconDroplet,
+  IconSphere,
+  IconSunrise,
+  IconSunset,
+  IconWind,
+} from "@tabler/icons-react";
 import CountryFlag from "../CountryFlag";
+import DeleteButton from "../DeleteButton";
 
 interface IWeatherCity {
+  deleteFunc: (item: number) => void;
+  index: number;
   weatherData: any;
 }
 
-const WeatherCity = ({ weatherData }: IWeatherCity) => {
+const WeatherCity = ({ deleteFunc, index, weatherData }: IWeatherCity) => {
+  const theme = useTheme();
+  // ЕСли нет погоды
   if (!weatherData.weather)
     return (
       <Grid item xs={12} sm={6} md={4}>
         <Skeleton
           variant="rounded"
           width="100%"
-          height={165}
+          height={180}
           sx={{ borderRadius: 2 }}
         />
       </Grid>
     );
+
+  const sunrise = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString(
+    [],
+    { timeStyle: "short" }
+  );
+  const sunset = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString(
+    [],
+    { hour: "2-digit", minute: "2-digit" }
+  );
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
         sx={{
-          height: 165,
+          position: "relative",
+          height: 180,
           borderRadius: 2,
           bgcolor: "rgb(191, 219, 254 )",
         }}
       >
         <CardContent sx={{ height: "100%" }}>
           <Stack spacing={2} sx={{ height: "100%" }}>
+            {/*  Город, кнопка удаления и иконка погоды */}
             <Stack direction="row" spacing={2} justifyContent="space-between">
               <Box>
                 <Typography variant="h6">
@@ -47,6 +70,7 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
                   <Typography component="span" variant="subtitle1">
                     {weatherData.sys.country}
                   </Typography>
+                  <DeleteButton handleClick={deleteFunc} index={index} />
                 </Typography>
               </Box>
               <Box sx={{ mr: "-15px !important" }}>
@@ -57,6 +81,8 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
                 />
               </Box>
             </Stack>
+
+            {/* температура и описание погоды */}
             <Stack
               direction="row"
               spacing={2}
@@ -75,23 +101,24 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
                 <Typography variant="caption" component="div">
                   {weatherData.weather[0].description}
                 </Typography>
-                <Typography>
-                  <Typography variant="caption" component="div">
-                    Ощущается как{" "}
-                    <Typography variant="subtitle2" component="span">
-                      {weatherData.main.feels_like.toFixed()}
-                      <Typography
-                        color="error"
-                        variant="subtitle2"
-                        component="span"
-                      >
-                        °
-                      </Typography>
+
+                <Typography variant="caption" component="div">
+                  Ощущается как{" "}
+                  <Typography variant="subtitle2" component="span">
+                    {weatherData.main.feels_like.toFixed()}
+                    <Typography
+                      color="error"
+                      variant="subtitle2"
+                      component="span"
+                    >
+                      °
                     </Typography>
                   </Typography>
                 </Typography>
               </Box>
             </Stack>
+
+            {/* погодные условия */}
             <Stack
               direction="row"
               spacing={2}
@@ -123,6 +150,31 @@ const WeatherCity = ({ weatherData }: IWeatherCity) => {
                 <Typography variant="subtitle2">
                   {weatherData.main.pressure}{" "}
                   <Typography variant="caption">мм рт. ст.</Typography>
+                </Typography>
+              </Stack>
+            </Stack>
+
+            {/* рассвет и закат */}
+            <Stack
+              direction="row"
+              spacing={2}
+              justifyContent="space-between"
+              sx={{ mt: "6px !important" }}
+            >
+              <Stack alignItems="center" direction="row" spacing={1}>
+                <Tooltip title="Рассвет">
+                  <IconSunrise size={20} color={theme.palette.warning.dark} />
+                </Tooltip>{" "}
+                <Typography variant="caption" fontWeight="bold">
+                  {sunrise}
+                </Typography>
+              </Stack>
+              <Stack alignItems="center" direction="row" spacing={1}>
+                <Tooltip title="Закат">
+                  <IconSunset size={20} color={theme.palette.error.main} />
+                </Tooltip>{" "}
+                <Typography variant="caption" fontWeight="bold">
+                  {sunset}
                 </Typography>
               </Stack>
             </Stack>

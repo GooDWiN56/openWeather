@@ -22,7 +22,7 @@ function App() {
 
   //константы апи openweather
   const API_KEY = "66c88b84092b971a3ad27d0255a41024";
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=ru&appid=${API_KEY}`;
+  const url_1day = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=ru&appid=${API_KEY}`;
 
   //проверка находится ли горор в списке
   const ckeckCity = (value: any) => {
@@ -33,33 +33,39 @@ function App() {
   const searchLoacation = (event: any) => {
     if (event.key === "Enter") {
       axios
-        .get(url)
+        .get(url_1day)
         .then((respomse) => {
-          if (ckeckCity(respomse.data)) {
+          if (ckeckCity(respomse?.data)) {
             setOpen(true);
             setSeverity("warning");
             setMessage("Такой город уже добавлен");
           } else {
-            setData((prev) => [...prev, respomse.data]);
+            setData((prev) => [...prev, respomse?.data]);
             setOpen(true);
             setSeverity("success");
             setMessage("Город добавлен");
           }
+          setCity("");
         })
         .catch((error) => {
           setOpen(true);
           setSeverity("error");
           setMessage("Город не найден");
-          console.log(error.response.data);
+          console.log(error);
         });
-      setCity("");
     }
+  };
+
+  const deletLocation = (item: number) => {
+    let arr = data;
+    arr.splice(item, 1);
+    setData([...arr]);
   };
 
   return (
     <div className="w-full min-h-screen">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center p-4">
+        <div className="text-center p-4 pt-14">
           <InputSearch
             pressKeyFunction={searchLoacation}
             setValue={setCity}
@@ -74,7 +80,12 @@ function App() {
           ) : (
             <Grid container spacing={2}>
               {data.map((item, key) => (
-                <WeatherCity weatherData={item} key={key} />
+                <WeatherCity
+                  deleteFunc={deletLocation}
+                  index={key}
+                  key={key}
+                  weatherData={item}
+                />
               ))}
             </Grid>
           )}
